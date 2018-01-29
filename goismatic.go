@@ -34,14 +34,14 @@ const apiURL string = "http://api.forismatic.com/api/"
 const apiVer string = "1.0"
 
 // Get returns a random quote in either English or Russian from forismatic.com
-func Get(l lang) (Quote, error) {
-	var q Quote
+func Get(l lang) (*Quote, error) {
+	q := new(Quote)
 
 	URL := apiURL + apiVer + "/"
 
 	req, err := http.NewRequest("GET", URL, nil)
 	if err != nil {
-		return q, err
+		return nil, err
 	}
 
 	qu := req.URL.Query()
@@ -56,13 +56,13 @@ func Get(l lang) (Quote, error) {
 
 	resp, err := client.Do(req)
 	if resp.StatusCode != http.StatusOK {
-		return q, errors.New(resp.Status)
+		return nil, errors.New(resp.Status)
 	}
 	defer resp.Body.Close()
 
 	err = json.NewDecoder(resp.Body).Decode(q)
 	if err != nil {
-		return q, err
+		return nil, err
 	}
 
 	if q.QuoteAuthor == "" {
