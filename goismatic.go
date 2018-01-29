@@ -27,7 +27,7 @@ type Quote struct {
 }
 
 func (q *Quote) String() string {
-	return "\"" + q.QuoteText + "\" - " + q.QuoteAuthor
+	return q.QuoteText + " - " + q.QuoteAuthor
 }
 
 const apiURL string = "http://api.forismatic.com/api/"
